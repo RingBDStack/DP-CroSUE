@@ -1,0 +1,887 @@
+# 1.This file shows the parsed IR info when graph evaluating failed to help find the problem.
+# 2.You can search the last `------------------------>` to the node which is inferred failed.
+# 3.Refer to https://www.mindspore.cn/search?inputValue=analyze_fail.dat to get more instructions.
+# ===============================================================================
+
+# [No.1] after_grad.29
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:523/                    def after_grad(*args):/
+funcgraph fg_29(
+        %para1 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape    # args0
+        , %para2 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape    # args1
+        , %para3 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # args2
+        , %para4 : Tensor(I32)[50000, 3]    # args3
+        , %para5 : Ref[Tensor(F32)][256, 300]    # layer1.weight.0.weight
+        , %para6 : Ref[Tensor(F32)][256]    # layer1.weight.0.bias
+        , %para7 : Ref[Tensor(F32)][256, 35]    # layer1.weight.1.weight
+        , %para8 : Ref[Tensor(F32)][256]    # layer1.weight.1.bias
+        , %para9 : Ref[Tensor(F32)][128, 256]    # layer2.weight.0.weight
+        , %para10 : Ref[Tensor(F32)][128]    # layer2.weight.0.bias
+        , %para11 : Ref[Tensor(F32)][128, 256]    # layer2.weight.1.weight
+        , %para12 : Ref[Tensor(F32)][128]    # layer2.weight.1.bias
+    ) {
+    %1 : Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)) = Primitive::MakeTuple{prim_type=1}(%para1, %para2, %para3, %para4)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, Tensor(I32)[50000, 3]) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:523/                    def after_grad(*args):/#[CNode]52
+    %2 : FuncNoShape = UnpackGraphPrimitive::UnpackGraph{prim_type=1}(FuncGraph::fg_3, %1)    #(FuncNoShape, Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)))    # fg_3=forward_fn.3 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %3 : Tuple[Ref[Tensor(F32)]*8]TupleShape((256, 300), (256), (256, 35), (256), (128, 256), (128), (128, 256), (128)) = Primitive::MakeTuple{prim_type=1}(%para5, %para6, %para7, %para8, %para9, %para10, %para11, %para12)    #(Ref[Tensor(F32)][256, 300], Ref[Tensor(F32)][256], Ref[Tensor(F32)][256, 35], Ref[Tensor(F32)][256], Ref[Tensor(F32)][128, 256], Ref[Tensor(F32)][128], Ref[Tensor(F32)][128, 256], Ref[Tensor(F32)][128]) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#[CNode]54
+    %4 : FuncNoShape = DoSignaturePrimitive::S-Prim-grad{prim_type=1}(%2, %3)    #(FuncNoShape, Tuple[Ref[Tensor(F32)]*8]TupleShape((256, 300), (256), (256, 35), (256), (128, 256), (128), (128, 256), (128))) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+
+#------------------------> 0
+    %5 = UnpackCall::unpack_call(%4, %1)    #(FuncNoShape, Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3))) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    Primitive::Return{prim_type=1}(%5)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#[CNode]55
+}
+# order:
+#   1: @after_grad.29:53{[0]: ValueNode<UnpackGraphPrimitive> UnpackGraph, [1]: ValueNode<FuncGraph> forward_fn.3, [2]: [CNode]52}
+#   2: @after_grad.29:53{[0]: ValueNode<DoSignaturePrimitive> S-Prim-grad, [1]: 53, [2]: [CNode]54}
+#   3: @after_grad.29:53{[0]: ValueNode<UnpackCall> unpack_call.56, [1]: 53, [2]: [CNode]52}
+#   4: @after_grad.29:[CNode]55{[0]: ValueNode<Primitive> Return, [1]: 53}
+
+
+# [No.2] UnpackCall.30
+
+funcgraph fg_30(
+        %para13 : FuncNoShape    # 31
+        , %para14 : Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3))    # 32
+    ) {
+    %1 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape = Primitive::TupleGetItem{prim_type=1}(%para14, I64(0))    #(Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)), I64NoShape) #scope: Default
+#57
+    %2 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape = Primitive::TupleGetItem{prim_type=1}(%para14, I64(1))    #(Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)), I64NoShape) #scope: Default
+#58
+    %3 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape = Primitive::TupleGetItem{prim_type=1}(%para14, I64(2))    #(Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)), I64NoShape) #scope: Default
+#59
+    %4 : Tensor(I32)[50000, 3] = Primitive::TupleGetItem{prim_type=1}(%para14, I64(3))    #(Tuple[Dictionary[[texts,user,],[Tensor[Int32]*2]],Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]],Dictionary[[texts,user,],[Tensor[Float32]*2]],Tensor(I32)]TupleShape(NoShape, NoShape, NoShape, (50000, 3)), I64NoShape) #scope: Default
+#60
+
+#------------------------> 1
+    %5 = %para13(%1, %2, %3, %4)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, Tensor(I32)[50000, 3]) #scope: Default
+#61
+    Primitive::Return{prim_type=1}(%5)    #(Undefined) #scope: Default
+#62
+}
+# order:
+#   1: @UnpackCall.30:61{[0]: 31, [1]: 57, [2]: 58, [3]: 59, [4]: 60}
+#   2: @UnpackCall.30:62{[0]: ValueNode<Primitive> Return, [1]: 61}
+
+
+# [No.3] forward_fn.33
+# In file train.py:95/    def forward_fn(node_dict, edge_dict, fea_dict, triplets):/
+funcgraph fg_33[fg_63](
+        %para15 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape    # forward_fn
+        , %para16 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape    # forward_fn
+        , %para17 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # forward_fn
+        , %para18 : Tensor(I32)[50000, 3]    # forward_fn
+    ) {
+    %1 : $(forward_fn.63):FuncNoShape = Primitive::J{prim_type=1}[side_effect_propagate=I64(1)](%para-1)    #(FuncNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+
+#------------------------> 2
+    %2 = %1(%para15, %para16, %para17, %para18)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, Tensor(I32)[50000, 3]) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %3 = Primitive::TupleGetItem{prim_type=1}(%2, I64(0))    #(Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %4 = Primitive::TupleGetItem{prim_type=1}(%2, I64(1))    #(Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %5 = HyperMapPy::hyper_map[ones_like_leaf]{fn_leaf=MultitypeFuncGraph::ones_like_leaf{(CSRTensor), (COOTensor), (Tensor), (Func), (TypeType), (Number)}}(%3)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %6 = %4(%5)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %7 = Primitive::TupleGetItem{prim_type=1}(%6, I64(0))    #(Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %8 = Primitive::Partial{prim_type=1}[side_effect_propagate=I64(1)](MultitypeFuncGraph::env_get{(EnvType, Tensor)}, %7)    #(Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %9 = HyperMap::hyper_map(%8, %para-1)    #(Undefined, Tuple[Ref[Tensor(F32)]*8]TupleShape((256, 300), (256), (256, 35), (256), (128, 256), (128), (128, 256), (128))) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    %10 = Primitive::MakeTuple{prim_type=1}(%3, %9)    #(Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+    Primitive::Return{prim_type=1}(%10)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/base.py:524/                        return grad_(fn, weights)(*args)/#53
+}
+# order:
+#   1: @forward_fn.33:53{[0]: 53, [1]: forward_fn, [2]: forward_fn, [3]: forward_fn, [4]: forward_fn}
+#   2: @forward_fn.33:53{[0]: ValueNode<Primitive> TupleGetItem, [1]: 53, [2]: ValueNode<Int64Imm> 0}
+#   3: @forward_fn.33:53{[0]: ValueNode<Primitive> TupleGetItem, [1]: 53, [2]: ValueNode<Int64Imm> 1}
+#   4: @forward_fn.33:53{[0]: ValueNode<HyperMapPy> hyper_map[ones_like_leaf].64, [1]: 53}
+#   5: @forward_fn.33:53{[0]: 53, [1]: 53}
+#   6: @forward_fn.33:53{[0]: ValueNode<Primitive> TupleGetItem, [1]: 53, [2]: ValueNode<Int64Imm> 0}
+#   7: @forward_fn.33:53{[0]: ValueNode<Primitive> Partial, [1]: ValueNode<MultitypeFuncGraph> env_get.65, [2]: 53}
+#   8: @forward_fn.33:53{[0]: ValueNode<HyperMap> hyper_map.66, [1]: 53, [2]: 67}
+#   9: @forward_fn.33:53{[0]: ValueNode<Primitive> MakeTuple, [1]: 53, [2]: 53}
+#  10: @forward_fn.33:53{[0]: ValueNode<Primitive> Return, [1]: 53}
+
+
+# [No.4] forward_fn.3
+# In file train.py:95/    def forward_fn(node_dict, edge_dict, fea_dict, triplets):/
+funcgraph fg_3[fg_29](
+        %para19 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape    # node_dict
+        , %para20 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape    # edge_dict
+        , %para21 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # fea_dict
+        , %para22 : Tensor(I32)[50000, 3]    # triplets
+    ) {
+
+#------------------------> 3
+    %1 = FuncGraph::fg_68(%para19, %para20, %para21)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape)    # fg_68=Default.68 #scope: Default
+      # In file train.py:96/        outemb = model(node_dict, edge_dict, fea_dict)/#outemb
+    %2 = FuncGraph::fg_69(%1, %para22)    #(Undefined, Tensor(I32)[50000, 3])    # fg_69=Default.69 #scope: Default
+      # In file train.py:97/        loss = loss_fn(outemb, triplets)/#loss
+    %3 = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(%2, %1)    #(Undefined, Undefined) #scope: Default
+      # In file train.py:98/        return loss, outemb/#[CNode]70
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # In file train.py:98/        return loss, outemb/#[CNode]71
+}
+# order:
+#   1: @forward_fn.3:outemb{[0]: ValueNode<FuncGraph> Default.68, [1]: node_dict, [2]: edge_dict, [3]: fea_dict}
+#   2: @forward_fn.3:loss{[0]: ValueNode<FuncGraph> Default.69, [1]: outemb, [2]: triplets}
+#   3: @forward_fn.3:[CNode]70{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: loss, [2]: outemb}
+#   4: @forward_fn.3:[CNode]71{[0]: ValueNode<Primitive> Return, [1]: [CNode]70}
+
+
+# [No.5] Default.34
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:113/    def construct(self, node_dict, edge_dict, fea_dict, joint=False):/
+funcgraph fg_34[fg_29](
+        %para23 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape    # node_dict
+        , %para24 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape    # edge_dict
+        , %para25 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # fea_dict
+    ) {
+
+#------------------------> 4
+    %1 = FuncGraph::fg_35(%para23, %para24, %para25)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape)    # fg_35=Default.35 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#h_dict
+    %2 = FuncGraph::fg_72(I64(0), %1)    #(Undefined, Undefined)    # fg_72=↵Default.72 #scope: Default
+      # In file train.py:96/        outemb = model(node_dict, edge_dict, fea_dict)/#[CNode]73
+    Primitive::Return{prim_type=1}(%2)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:115/        for e in h_dict.keys():/#[CNode]74
+}
+# order:
+#   1: @Default.34:h_dict{[0]: ValueNode<FuncGraph> Default.35, [1]: node_dict, [2]: edge_dict, [3]: fea_dict}
+#   2: @Default.34:[CNode]75{[0]: ValueNode<Primitive> getattr, [1]: h_dict, [2]: ValueNode<StringImm> keys}
+#   3: @Default.34:[CNode]76{[0]: [CNode]75}
+#   4: @Default.34:[CNode]77{[0]: ValueNode<FuncGraph> ms_len.78, [1]: [CNode]76}
+#   5: @Default.34:[CNode]74{[0]: ValueNode<Primitive> Return, [1]: [CNode]73}
+#   6: @Default.34:[CNode]73{[0]: ValueNode<FuncGraph> ↵Default.72, [1]: ValueNode<Int64Imm> 0, [2]: h_dict}
+
+
+# [No.6] Default.35
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:23/    def construct(self, node_dict, edge_dict, fea_dict):/
+funcgraph fg_35[fg_29](
+        %para26 : Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape    # node_dict
+        , %para27 : Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape    # edge_dict
+        , %para28 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # fea_dict
+    ) {
+    %1 : Tuple[]TupleShape() = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:29/        hidden = {}/#[CNode]79
+    %2 : Tuple[]TupleShape() = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:29/        hidden = {}/#[CNode]80
+    %3 : Dictionary[[],[]]NoShape = DoSignaturePrimitive::S-Prim-make_dict{prim_type=1}(%1, %2)    #(Tuple[]TupleShape(), Tuple[]TupleShape()) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:29/        hidden = {}/#hidden
+    %4 : Tuple[]TupleShape() = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:30/        h = {}/#[CNode]81
+    %5 : Tuple[]TupleShape() = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:30/        h = {}/#[CNode]82
+    %6 : Dictionary[[],[]]NoShape = DoSignaturePrimitive::S-Prim-make_dict{prim_type=1}(%4, %5)    #(Tuple[]TupleShape(), Tuple[]TupleShape()) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:30/        h = {}/#h
+
+#------------------------> 5
+    %7 = FuncGraph::fg_36(I64(0), %3, %6)    #(I64NoShape, Dictionary[[],[]]NoShape, Dictionary[[],[]]NoShape)    # fg_36=↵Default.36 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]83
+    Primitive::Return{prim_type=1}(%7)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]84
+}
+# order:
+#   1: @Default.35:[CNode]79{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple}
+#   2: @Default.35:[CNode]80{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple}
+#   3: @Default.35:hidden{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]79, [2]: [CNode]80}
+#   4: @Default.35:[CNode]81{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple}
+#   5: @Default.35:[CNode]82{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple}
+#   6: @Default.35:h{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]81, [2]: [CNode]82}
+#   7: @Default.35:[CNode]85{[0]: ValueNode<Primitive> getattr, [1]: node_dict, [2]: ValueNode<StringImm> keys}
+#   8: @Default.35:[CNode]86{[0]: [CNode]85}
+#   9: @Default.35:[CNode]87{[0]: ValueNode<Primitive> getattr, [1]: edge_dict, [2]: ValueNode<StringImm> keys}
+#  10: @Default.35:[CNode]88{[0]: [CNode]87}
+#  11: @Default.35:[CNode]89{[0]: ValueNode<FuncGraph> enumerate_.90, [1]: nodeType_list}
+#  12: @Default.35:[CNode]91{[0]: ValueNode<FuncGraph> ms_len.78, [1]: [CNode]89}
+#  13: @Default.35:[CNode]84{[0]: ValueNode<Primitive> Return, [1]: [CNode]83}
+#  14: @Default.35:[CNode]83{[0]: ValueNode<FuncGraph> ↵Default.36, [1]: ValueNode<Int64Imm> 0, [2]: hidden, [3]: h}
+
+
+# [No.7] ↵Default.36
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/
+funcgraph fg_36[fg_35](
+        %para29 : I64NoShape    # @[CNode]37
+        , %para30 : Dictionary[[],[]]NoShape    # фhidden
+        , %para31 : Dictionary[[],[]]NoShape    # фh
+    ) {
+    %1 : $(Default.35):FuncNoShape = Primitive::getattr{prim_type=1}(%para26, "keys")    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#[CNode]85
+    %2 : $(Default.35):Tuple[String*2]TupleShape(NoShape, NoShape) = %1() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#[CNode]86
+    %3 : $(Default.35):List[String*2]ListShape[NoShape, NoShape] = ClassType(%2)    #(Tuple[String*2]TupleShape(NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#nodeType_list
+    %4 : $(Default.35):Tuple[Tuple[I64,String]*2]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)) = FuncGraph::fg_90(%3)    #(List[String*2]ListShape[NoShape, NoShape])    # fg_90=enumerate_.90 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]89
+    %5 : $(Default.35):I64NoShape = FuncGraph::fg_78(%4)    #(Tuple[Tuple[I64,String]*2]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)))    # fg_78=ms_len.78 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]91
+    %6 : BoolNoShape = MultitypeFuncGraph::less{(Tensor, Tensor), (Number, Tensor), (Number, Number), (Tensor, Number), (String, String)}(%para29, %5)    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]92
+    %7 : FuncNoShape = Primitive::Switch{prim_type=1}(%6, FuncGraph::fg_38, FuncGraph::fg_39)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_38=↻Default.38, fg_39=↓Default.39 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]93
+
+#------------------------> 10
+    %8 = %7() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]94
+    Primitive::Return{prim_type=1}(%8)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]95
+}
+# order:
+#   1: @↵Default.36:[CNode]92{[0]: ValueNode<MultitypeFuncGraph> less.20, [1]: @[CNode]37, [2]: [CNode]91}
+#   2: @↵Default.36:[CNode]93{[0]: ValueNode<Primitive> Switch, [1]: [CNode]92, [2]: ValueNode<FuncGraph> ↻Default.38, [3]: ValueNode<FuncGraph> ↓Default.39}
+#   3: @↵Default.36:[CNode]94{[0]: [CNode]93}
+#   4: @↵Default.36:[CNode]95{[0]: ValueNode<Primitive> Return, [1]: [CNode]94}
+
+
+# [No.8] ↻Default.38
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/
+funcgraph fg_38[fg_36](
+) {
+    %1 : I64NoShape = MultitypeFuncGraph::add{(Tensor, COOTensor), (Tensor, Tuple), (Tuple, Tensor), (Number, Tensor), (String, String), (RowTensor, Tensor), (List, Tensor), (Tensor, List), (List, List), (NoneType, NoneType), (Tensor, Tensor), (CSRTensor, CSRTensor), (Number, Number), (Tensor, Number), (Tuple, Tuple), (COOTensor, Tensor), (COOTensor, COOTensor)}(%para29, I64(1))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]37
+    %2 : I64NoShape = Primitive::stop_gradient{prim_type=1}(%1)    #(I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]96
+    %3 : $(Default.35):FuncNoShape = Primitive::getattr{prim_type=1}(%para26, "keys")    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#[CNode]85
+    %4 : $(Default.35):Tuple[String*2]TupleShape(NoShape, NoShape) = %3() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#[CNode]86
+    %5 : $(Default.35):List[String*2]ListShape[NoShape, NoShape] = ClassType(%4)    #(Tuple[String*2]TupleShape(NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:31/        nodeType_list = list(node_dict.keys())/#nodeType_list
+    %6 : $(Default.35):Tuple[Tuple[I64,String]*2]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)) = FuncGraph::fg_90(%5)    #(List[String*2]ListShape[NoShape, NoShape])    # fg_90=enumerate_.90 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]89
+    %7 : Tuple[I64,String]TupleShape(NoShape, NoShape) = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%6, %para29)    #(Tuple[Tuple[I64,String]*2]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]97
+    %8 : StringNoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%7, I64(1))    #(Tuple[I64,String]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#ntype
+    %9 : Tuple[Func*2]TupleShape(NoShape, NoShape) = Primitive::MakeTuple{prim_type=1}(FuncGraph::fg_98, FuncGraph::fg_99)    #(FuncNoShape, FuncNoShape)    # fg_98=Default.98, fg_99=Default.99 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:34/            Wh = self.weight[i](fea_dict[ntype])/#[CNode]100
+    %10 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%7, I64(0))    #(Tuple[I64,String]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#i
+    %11 : FuncNoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%9, %10)    #(Tuple[Func*2]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:34/            Wh = self.weight[i](fea_dict[ntype])/#[CNode]101
+    %12 : Tensor(F32)[3001, 300] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para28, %8)    #(Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:34/            Wh = self.weight[i](fea_dict[ntype])/#[CNode]102
+    %13 : Tensor(F32)[3001, 256] = %11(%12)    #(Tensor(F32)[3001, 300]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:34/            Wh = self.weight[i](fea_dict[ntype])/#Wh
+    %14 : Dictionary[[texts,],[Tensor[Float32]]]NoShape = DoSignaturePrimitive::S-Prim-setitem{prim_type=1}(%para30, %8, %13)    #(Dictionary[[],[]]NoShape, StringNoShape, Tensor(F32)[3001, 256]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:35/            hidden[ntype] = Wh/#[CNode]103
+    %15 : FuncNoShape = ClassType() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]104
+    %16 : Tensor(I32)[3001] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para26, %8)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]105
+    %17 : Tuple[I64]TupleShape(NoShape) = Primitive::getattr{prim_type=1}(%16, "shape")    #(Tensor(I32)[3001], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]106
+    %18 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%17, I64(0))    #(Tuple[I64]TupleShape(NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]107
+    %19 : Tuple[I64*2]TupleShape(NoShape, NoShape) = Primitive::getattr{prim_type=1}(%13, "shape")    #(Tensor(F32)[3001, 256], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]108
+    %20 : I64NoShape = DoSignaturePrimitive::S-Prim-negative{prim_type=1}(I64(1))    #(I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]109
+    %21 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%19, %20)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]110
+    %22 : Tuple[I64*2]TupleShape(NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(%18, %21)    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]111
+    %23 : Tensor(F32)[3001, 256] = %15(%22, F32)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]112
+    %24 : Dictionary[[texts,],[Tensor[Float32]]]NoShape = DoSignaturePrimitive::S-Prim-setitem{prim_type=1}(%para31, %8, %23)    #(Dictionary[[],[]]NoShape, StringNoShape, Tensor(F32)[3001, 256]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:36/            h[ntype] = ops.Zeros()((node_dict[ntype].shape[0], Wh.shape[-1]),/#[CNode]113
+
+#------------------------> 9
+    %25 = FuncGraph::fg_36(%1, %14, %24)    #(I64NoShape, Dictionary[[texts,],[Tensor[Float32]]]NoShape, Dictionary[[texts,],[Tensor[Float32]]]NoShape)    # fg_36=↵Default.36 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]114
+    %26 = Primitive::Depend{prim_type=1}[side_effect_propagate=I64(1)](%25, %2)    #(Undefined, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]115
+    Primitive::Return{prim_type=1}(%26)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/#[CNode]116
+}
+# order:
+#   1: @↻Default.38:[CNode]97{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]89, [2]: @[CNode]37}
+#   2: @↻Default.38:i{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]97, [2]: ValueNode<Int64Imm> 0}
+#   3: @↻Default.38:ntype{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]97, [2]: ValueNode<Int64Imm> 1}
+#   4: @↻Default.38:[CNode]37{[0]: ValueNode<MultitypeFuncGraph> add.10, [1]: @[CNode]37, [2]: ValueNode<Int64Imm> 1}
+#   5: @↻Default.38:[CNode]101{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]100, [2]: i}
+#   6: @↻Default.38:[CNode]102{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: fea_dict, [2]: ntype}
+#   7: @↻Default.38:Wh{[0]: [CNode]101, [1]: [CNode]102}
+#   8: @↻Default.38:[CNode]103{[0]: ValueNode<DoSignaturePrimitive> S-Prim-setitem, [1]: фhidden, [2]: ntype, [3]: Wh}
+#   9: @↻Default.38:[CNode]104{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.array_ops.Zeros'}
+#  10: @↻Default.38:[CNode]105{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: node_dict, [2]: ntype}
+#  11: @↻Default.38:[CNode]106{[0]: ValueNode<Primitive> getattr, [1]: [CNode]105, [2]: ValueNode<StringImm> shape}
+#  12: @↻Default.38:[CNode]107{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]106, [2]: ValueNode<Int64Imm> 0}
+#  13: @↻Default.38:[CNode]108{[0]: ValueNode<Primitive> getattr, [1]: Wh, [2]: ValueNode<StringImm> shape}
+#  14: @↻Default.38:[CNode]109{[0]: ValueNode<DoSignaturePrimitive> S-Prim-negative, [1]: ValueNode<Int64Imm> 1}
+#  15: @↻Default.38:[CNode]110{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]108, [2]: [CNode]109}
+#  16: @↻Default.38:[CNode]111{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: [CNode]107, [2]: [CNode]110}
+#  17: @↻Default.38:[CNode]112{[0]: [CNode]104, [1]: [CNode]111, [2]: ValueNode<Float> Float32}
+#  18: @↻Default.38:[CNode]113{[0]: ValueNode<DoSignaturePrimitive> S-Prim-setitem, [1]: фh, [2]: ntype, [3]: [CNode]112}
+#  19: @↻Default.38:[CNode]116{[0]: ValueNode<Primitive> Return, [1]: [CNode]115}
+#  20: @↻Default.38:[CNode]114{[0]: ValueNode<FuncGraph> ↵Default.36, [1]: [CNode]37, [2]: [CNode]103, [3]: [CNode]113}
+
+
+# [No.9] ↓Default.39
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:33/        for i, ntype in enumerate(nodeType_list):/
+funcgraph fg_39[fg_36](
+) {
+
+#------------------------> 11
+    %1 = FuncGraph::fg_40(I64(0), %para31)    #(I64NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape)    # fg_40=↵↓Default.40 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]117
+    Primitive::Return{prim_type=1}(%1)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]118
+}
+# order:
+#   1: @↓Default.39:[CNode]119{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> are posted by, [2]: ValueNode<StringImm> self related, [3]: ValueNode<StringImm> follow, [4]: ValueNode<StringImm> hasfan}
+#   2: @↓Default.39:[CNode]120{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> texts, [2]: ValueNode<StringImm> texts, [3]: ValueNode<StringImm> user, [4]: ValueNode<StringImm> user}
+#   3: @↓Default.39:src{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]119, [2]: [CNode]120}
+#   4: @↓Default.39:[CNode]121{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> are posted by, [2]: ValueNode<StringImm> self related, [3]: ValueNode<StringImm> follow, [4]: ValueNode<StringImm> hasfan}
+#   5: @↓Default.39:[CNode]122{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> user, [2]: ValueNode<StringImm> texts, [3]: ValueNode<StringImm> user, [4]: ValueNode<StringImm> user}
+#   6: @↓Default.39:dst{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]121, [2]: [CNode]122}
+#   7: @↓Default.39:[CNode]123{[0]: ValueNode<FuncGraph> enumerate_.90, [1]: edgeType_list}
+#   8: @↓Default.39:[CNode]124{[0]: ValueNode<FuncGraph> ms_len.78, [1]: [CNode]123}
+#   9: @↓Default.39:[CNode]118{[0]: ValueNode<Primitive> Return, [1]: [CNode]117}
+#  10: @↓Default.39:[CNode]117{[0]: ValueNode<FuncGraph> ↵↓Default.40, [1]: ValueNode<Int64Imm> 0, [2]: фh}
+
+
+# [No.10] ↵↓Default.40
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/
+funcgraph fg_40[fg_39](
+        %para32 : I64NoShape    # @[CNode]41
+        , %para33 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape    # фh
+    ) {
+    %1 : $(Default.35):FuncNoShape = Primitive::getattr{prim_type=1}(%para27, "keys")    #(Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#[CNode]87
+    %2 : $(Default.35):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = %1() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#[CNode]88
+    %3 : $(Default.35):List[String*4]ListShape[NoShape, NoShape, NoShape, NoShape] = ClassType(%2)    #(Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#edgeType_list
+    %4 : $(↓Default.39):Tuple[Tuple[I64,String]*4]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)) = FuncGraph::fg_90(%3)    #(List[String*4]ListShape[NoShape, NoShape, NoShape, NoShape])    # fg_90=enumerate_.90 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]123
+    %5 : $(↓Default.39):I64NoShape = FuncGraph::fg_78(%4)    #(Tuple[Tuple[I64,String]*4]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)))    # fg_78=ms_len.78 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]124
+    %6 : BoolNoShape = MultitypeFuncGraph::less{(Tensor, Tensor), (Number, Tensor), (Number, Number), (Tensor, Number), (String, String)}(%para32, %5)    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]125
+    %7 : FuncNoShape = Primitive::Switch{prim_type=1}(%6, FuncGraph::fg_42, FuncGraph::fg_126)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_42=↻↓Default.42, fg_126=↓↓Default.126 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]127
+
+#------------------------> 16
+    %8 = %7() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]128
+    Primitive::Return{prim_type=1}(%8)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]129
+}
+# order:
+#   1: @↵↓Default.40:[CNode]125{[0]: ValueNode<MultitypeFuncGraph> less.20, [1]: @[CNode]41, [2]: [CNode]124}
+#   2: @↵↓Default.40:[CNode]127{[0]: ValueNode<Primitive> Switch, [1]: [CNode]125, [2]: ValueNode<FuncGraph> ↻↓Default.42, [3]: ValueNode<FuncGraph> ↓↓Default.126}
+#   3: @↵↓Default.40:[CNode]128{[0]: [CNode]127}
+#   4: @↵↓Default.40:[CNode]129{[0]: ValueNode<Primitive> Return, [1]: [CNode]128}
+
+
+# [No.11] ↻↓Default.42
+# In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/
+funcgraph fg_42[fg_40](
+) {
+    %1 : I64NoShape = MultitypeFuncGraph::add{(Tensor, COOTensor), (Tensor, Tuple), (Tuple, Tensor), (Number, Tensor), (String, String), (RowTensor, Tensor), (List, Tensor), (Tensor, List), (List, List), (NoneType, NoneType), (Tensor, Tensor), (CSRTensor, CSRTensor), (Number, Number), (Tensor, Number), (Tuple, Tuple), (COOTensor, Tensor), (COOTensor, COOTensor)}(%para32, I64(1))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]41
+    %2 : I64NoShape = Primitive::stop_gradient{prim_type=1}(%1)    #(I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]130
+    %3 : $(↓Default.39):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}("are posted by", "self related", "follow", "hasfan")    #(StringNoShape, StringNoShape, StringNoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:44/        dst = {/#[CNode]121
+    %4 : $(↓Default.39):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}("user", "texts", "user", "user")    #(StringNoShape, StringNoShape, StringNoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:44/        dst = {/#[CNode]122
+    %5 : $(↓Default.39):Dictionary[[are posted by,self related,follow,hasfan,],[String*4]]NoShape = DoSignaturePrimitive::S-Prim-make_dict{prim_type=1}(%3, %4)    #(Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape), Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:44/        dst = {/#dst
+    %6 : $(Default.35):FuncNoShape = Primitive::getattr{prim_type=1}(%para27, "keys")    #(Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#[CNode]87
+    %7 : $(Default.35):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = %6() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#[CNode]88
+    %8 : $(Default.35):List[String*4]ListShape[NoShape, NoShape, NoShape, NoShape] = ClassType(%7)    #(Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:32/        edgeType_list = list(edge_dict.keys())/#edgeType_list
+    %9 : $(↓Default.39):Tuple[Tuple[I64,String]*4]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)) = FuncGraph::fg_90(%8)    #(List[String*4]ListShape[NoShape, NoShape, NoShape, NoShape])    # fg_90=enumerate_.90 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]123
+    %10 : Tuple[I64,String]TupleShape(NoShape, NoShape) = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%9, %para32)    #(Tuple[Tuple[I64,String]*4]TupleShape(TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape), TupleShape(NoShape, NoShape)), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]131
+    %11 : StringNoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%10, I64(1))    #(Tuple[I64,String]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#etype
+    %12 : StringNoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%5, %11)    #(Dictionary[[are posted by,self related,follow,hasfan,],[String*4]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:52/            dsttype = dst[etype]/#dsttype
+    %13 : Tensor(F32)[5392, 256] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para33, %12)    #(Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:84/            h[dsttype] += mailbox/#[CNode]132
+    %14 : FuncNoShape = ClassType() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]133
+    %15 : Tensor(I32)[5392] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para26, %12)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]134
+    %16 : Tuple[I64]TupleShape(NoShape) = Primitive::getattr{prim_type=1}(%15, "shape")    #(Tensor(I32)[5392], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]135
+    %17 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%16, I64(0))    #(Tuple[I64]TupleShape(NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]136
+    %18 : Tuple[I64*2]TupleShape(NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(%17, I64(256))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]137
+    %19 : Tensor(F32)[5392, 256] = %14(%18, F32)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:71/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]138
+    %20 : Dictionary[[edges,],[Tensor[Int32]]]NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para27, %11)    #(Dictionary[[are posted by,self related,follow,hasfan,],[Dictionary[[edges,],[Tensor[Int32]]]*4]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:53/            edges = edge_dict[etype]['edges']/#[CNode]139
+    %21 : Tensor(I32)[2, 3001] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%20, "edges")    #(Dictionary[[edges,],[Tensor[Int32]]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:53/            edges = edge_dict[etype]['edges']/#edges
+    %22 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%10, I64(0))    #(Tuple[I64,String]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#i
+
+#------------------------> 17
+    %23 : Tensor(I32)[3001] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%21, %22)    #(Tensor(I32)[2, 3001], I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]140
+    %24 : FuncNoShape = Primitive::getattr{prim_type=1}(%23, "astype")    #(Tensor(I32)[3001], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]141
+    %25 : Tensor(I32)[3001] = %24(I32)    #(TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]142
+    %26 : FuncNoShape = Primitive::getattr{prim_type=1}(%25, "reshape")    #(Tensor(I32)[3001], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]143
+    %27 : I64NoShape = DoSignaturePrimitive::S-Prim-negative{prim_type=1}(I64(1))    #(I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]144
+    %28 : Tensor(I32)[3001, 1] = %26(%27, I64(1))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]145
+    %29 : $(↓Default.39):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}("are posted by", "self related", "follow", "hasfan")    #(StringNoShape, StringNoShape, StringNoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:38/        src = {/#[CNode]119
+    %30 : $(↓Default.39):Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}("texts", "texts", "user", "user")    #(StringNoShape, StringNoShape, StringNoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:38/        src = {/#[CNode]120
+    %31 : $(↓Default.39):Dictionary[[are posted by,self related,follow,hasfan,],[String*4]]NoShape = DoSignaturePrimitive::S-Prim-make_dict{prim_type=1}(%29, %30)    #(Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape), Tuple[String*4]TupleShape(NoShape, NoShape, NoShape, NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:38/        src = {/#src
+    %32 : StringNoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%31, %11)    #(Dictionary[[are posted by,self related,follow,hasfan,],[String*4]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:51/            srctype = src[etype]/#srctype
+    %33 : Tensor(F32)[3001, 256] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para30, %32)    #(Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:54/            e_m = hidden[srctype][edges[0]]/#[CNode]146
+    %34 : Tensor(I32)[3001] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%21, I64(0))    #(Tensor(I32)[2, 3001], I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:54/            e_m = hidden[srctype][edges[0]]/#[CNode]147
+    %35 : Tensor(F32)[3001, 256] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%33, %34)    #(Tensor(F32)[3001, 256], Tensor(I32)[3001]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:54/            e_m = hidden[srctype][edges[0]]/#e_m
+    %36 : Tensor(F32)[5392, 256] = FuncGraph::fg_148(%19, %28, %35)    #(Tensor(F32)[5392, 256], Tensor(I32)[3001, 1], Tensor(F32)[3001, 256])    # fg_148=tensor_scatter_add.148 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:70/            mailbox = ops.tensor_scatter_add(/#mailbox
+    %37 : FuncNoShape = ClassType() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]149
+    %38 : Tensor(I32)[5392] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%para26, %12)    #(Dictionary[[texts,user,],[Tensor[Int32]*2]]NoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]150
+    %39 : Tuple[I64]TupleShape(NoShape) = Primitive::getattr{prim_type=1}(%38, "shape")    #(Tensor(I32)[5392], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]151
+    %40 : I64NoShape = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%39, I64(0))    #(Tuple[I64]TupleShape(NoShape), I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]152
+    %41 : Tuple[I64*2]TupleShape(NoShape, NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(%40, I64(256))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]153
+    %42 : Tensor(I32)[5392, 256] = %37(%41, I32)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:75/                ops.Zeros()((node_dict[dsttype].shape[0], self.out_size),/#[CNode]154
+    %43 : Tensor(I32)[3001] = DoSignaturePrimitive::S-Prim-getitem{prim_type=1}(%21, I64(1))    #(Tensor(I32)[2, 3001], I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]155
+    %44 : FuncNoShape = Primitive::getattr{prim_type=1}(%43, "astype")    #(Tensor(I32)[3001], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]156
+    %45 : Tensor(I32)[3001] = %44(I32)    #(TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]157
+    %46 : FuncNoShape = Primitive::getattr{prim_type=1}(%45, "reshape")    #(Tensor(I32)[3001], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]158
+    %47 : I64NoShape = DoSignaturePrimitive::S-Prim-negative{prim_type=1}(I64(1))    #(I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]159
+    %48 : Tensor(I32)[3001, 1] = %46(%47, I64(1))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:77/                edges[1].astype(mindspore.int32).reshape(-1, 1),/#[CNode]160
+    %49 : FuncNoShape = ClassType() #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:78/                ops.Ones()(e_m.shape, mindspore.int32))/#[CNode]161
+    %50 : Tuple[I64*2]TupleShape(NoShape, NoShape) = Primitive::getattr{prim_type=1}(%35, "shape")    #(Tensor(F32)[3001, 256], StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:78/                ops.Ones()(e_m.shape, mindspore.int32))/#[CNode]162
+    %51 : Tensor(I32)[3001, 256] = %49(%50, I32)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), TypeTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:78/                ops.Ones()(e_m.shape, mindspore.int32))/#[CNode]163
+    %52 : Tensor(I32)[5392, 256] = FuncGraph::fg_148(%42, %48, %51)    #(Tensor(I32)[5392, 256], Tensor(I32)[3001, 1], Tensor(I32)[3001, 256])    # fg_148=tensor_scatter_add.148 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:74/            cnt = ops.tensor_scatter_add(/#cnt
+    %53 : Tuple[String]TupleShape(NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}("mindspore")    #(StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#[CNode]164
+    %54 : Tuple[ExternalType]TupleShape(NoShape) = DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(NameSpace::Module)    #(ExternalTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#[CNode]165
+    %55 : Dictionary[[mindspore,],[External]]NoShape = DoSignaturePrimitive::S-Prim-make_dict{prim_type=1}(%53, %54)    #(Tuple[String]TupleShape(NoShape), Tuple[ExternalType]TupleShape(NoShape)) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#[CNode]166
+    %56 : Tensor(I32)[] = Primitive::PyInterpret{prim_type=1}(Script['Tensor(1, mindspore.int32)'], {"list": ClassType, "len": InterpretedObject, "enumerate": ClassType, "ops": NameSpace::Module, "mindspore": NameSpace::Module, "self": InterpretedObject, "Tensor": ClassType}, %55)    #(StringNoShape, Dictionary[[list,len,enumerate,ops,mindspore,self,Tensor,],[TypeType,External,TypeType,External*3,TypeType]]NoShape, Dictionary[[mindspore,],[External]]NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#[CNode]167
+    %57 : Tensor(I32)[5392, 256] = FuncGraph::fg_168(%52, %56)    #(Tensor(I32)[5392, 256], Tensor(I32)[])    # fg_168=maximum.168 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#[CNode]169
+    %58 : Tensor(F32)[5392, 256] = DoSignaturePrimitive::S-Prim-div{prim_type=1}(%36, %57)    #(Tensor(F32)[5392, 256], Tensor(I32)[5392, 256]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:79/            mailbox = mailbox / ops.maximum(cnt, Tensor(1, mindspore.int32))/#mailbox
+    %59 : Tensor(F32)[5392, 256] = DoSignaturePrimitive::S-Prim-add{prim_type=1}(%13, %58)    #(Tensor(F32)[5392, 256], Tensor(F32)[5392, 256]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:84/            h[dsttype] += mailbox/#[CNode]170
+    %60 : Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape = DoSignaturePrimitive::S-Prim-setitem{prim_type=1}(%para33, %12, %59)    #(Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape, StringNoShape, Tensor(F32)[5392, 256]) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:84/            h[dsttype] += mailbox/#[CNode]171
+
+#------------------------> 15
+    %61 = FuncGraph::fg_40(%1, %60)    #(I64NoShape, Dictionary[[texts,user,],[Tensor[Float32]*2]]NoShape)    # fg_40=↵↓Default.40 #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]172
+    %62 = Primitive::Depend{prim_type=1}[side_effect_propagate=I64(1)](%61, %2)    #(Undefined, I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:114/        h_dict = self.layer1(node_dict, edge_dict, fea_dict)/#[CNode]173
+    Primitive::Return{prim_type=1}(%62)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:50/        for i, etype in enumerate(edgeType_list):/#[CNode]174
+}
+# order:
+#   1: @↻↓Default.42:[CNode]131{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]123, [2]: @[CNode]41}
+#   2: @↻↓Default.42:i{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]131, [2]: ValueNode<Int64Imm> 0}
+#   3: @↻↓Default.42:etype{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]131, [2]: ValueNode<Int64Imm> 1}
+#   4: @↻↓Default.42:[CNode]41{[0]: ValueNode<MultitypeFuncGraph> add.10, [1]: @[CNode]41, [2]: ValueNode<Int64Imm> 1}
+#   5: @↻↓Default.42:srctype{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: src, [2]: etype}
+#   6: @↻↓Default.42:dsttype{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: dst, [2]: etype}
+#   7: @↻↓Default.42:[CNode]139{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: edge_dict, [2]: etype}
+#   8: @↻↓Default.42:edges{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]139, [2]: ValueNode<StringImm> edges}
+#   9: @↻↓Default.42:[CNode]146{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: фhidden, [2]: srctype}
+#  10: @↻↓Default.42:[CNode]147{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: edges, [2]: ValueNode<Int64Imm> 0}
+#  11: @↻↓Default.42:e_m{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]146, [2]: [CNode]147}
+#  12: @↻↓Default.42:[CNode]133{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.array_ops.Zeros'}
+#  13: @↻↓Default.42:[CNode]134{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: node_dict, [2]: dsttype}
+#  14: @↻↓Default.42:[CNode]135{[0]: ValueNode<Primitive> getattr, [1]: [CNode]134, [2]: ValueNode<StringImm> shape}
+#  15: @↻↓Default.42:[CNode]136{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]135, [2]: ValueNode<Int64Imm> 0}
+#  16: @↻↓Default.42:[CNode]137{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: [CNode]136, [2]: ValueNode<Int64Imm> 256}
+#  17: @↻↓Default.42:[CNode]138{[0]: [CNode]133, [1]: [CNode]137, [2]: ValueNode<Float> Float32}
+#  18: @↻↓Default.42:[CNode]140{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: edges, [2]: i}
+#  19: @↻↓Default.42:[CNode]141{[0]: ValueNode<Primitive> getattr, [1]: [CNode]140, [2]: ValueNode<StringImm> astype}
+#  20: @↻↓Default.42:[CNode]142{[0]: [CNode]141, [1]: ValueNode<Int> Int32}
+#  21: @↻↓Default.42:[CNode]143{[0]: ValueNode<Primitive> getattr, [1]: [CNode]142, [2]: ValueNode<StringImm> reshape}
+#  22: @↻↓Default.42:[CNode]144{[0]: ValueNode<DoSignaturePrimitive> S-Prim-negative, [1]: ValueNode<Int64Imm> 1}
+#  23: @↻↓Default.42:[CNode]145{[0]: [CNode]143, [1]: [CNode]144, [2]: ValueNode<Int64Imm> 1}
+#  24: @↻↓Default.42:mailbox{[0]: ValueNode<FuncGraph> tensor_scatter_add.148, [1]: [CNode]138, [2]: [CNode]145, [3]: e_m}
+#  25: @↻↓Default.42:[CNode]149{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.array_ops.Zeros'}
+#  26: @↻↓Default.42:[CNode]150{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: node_dict, [2]: dsttype}
+#  27: @↻↓Default.42:[CNode]151{[0]: ValueNode<Primitive> getattr, [1]: [CNode]150, [2]: ValueNode<StringImm> shape}
+#  28: @↻↓Default.42:[CNode]152{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: [CNode]151, [2]: ValueNode<Int64Imm> 0}
+#  29: @↻↓Default.42:[CNode]153{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: [CNode]152, [2]: ValueNode<Int64Imm> 256}
+#  30: @↻↓Default.42:[CNode]154{[0]: [CNode]149, [1]: [CNode]153, [2]: ValueNode<Int> Int32}
+#  31: @↻↓Default.42:[CNode]155{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: edges, [2]: ValueNode<Int64Imm> 1}
+#  32: @↻↓Default.42:[CNode]156{[0]: ValueNode<Primitive> getattr, [1]: [CNode]155, [2]: ValueNode<StringImm> astype}
+#  33: @↻↓Default.42:[CNode]157{[0]: [CNode]156, [1]: ValueNode<Int> Int32}
+#  34: @↻↓Default.42:[CNode]158{[0]: ValueNode<Primitive> getattr, [1]: [CNode]157, [2]: ValueNode<StringImm> reshape}
+#  35: @↻↓Default.42:[CNode]159{[0]: ValueNode<DoSignaturePrimitive> S-Prim-negative, [1]: ValueNode<Int64Imm> 1}
+#  36: @↻↓Default.42:[CNode]160{[0]: [CNode]158, [1]: [CNode]159, [2]: ValueNode<Int64Imm> 1}
+#  37: @↻↓Default.42:[CNode]161{[0]: ValueNode<ClassType> class 'mindspore.ops.operations.array_ops.Ones'}
+#  38: @↻↓Default.42:[CNode]162{[0]: ValueNode<Primitive> getattr, [1]: e_m, [2]: ValueNode<StringImm> shape}
+#  39: @↻↓Default.42:[CNode]163{[0]: [CNode]161, [1]: [CNode]162, [2]: ValueNode<Int> Int32}
+#  40: @↻↓Default.42:cnt{[0]: ValueNode<FuncGraph> tensor_scatter_add.148, [1]: [CNode]154, [2]: [CNode]160, [3]: [CNode]163}
+#  41: @↻↓Default.42:[CNode]164{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<StringImm> mindspore}
+#  42: @↻↓Default.42:[CNode]165{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: ValueNode<NameSpace> Module: 'Namespace:mindspore'}
+#  43: @↻↓Default.42:[CNode]166{[0]: ValueNode<DoSignaturePrimitive> S-Prim-make_dict, [1]: [CNode]164, [2]: [CNode]165}
+#  44: @↻↓Default.42:[CNode]167{[0]: ValueNode<Primitive> PyInterpret, [1]: ValueNode<Script> 'Tensor(1, mindspore.int32)', [2]: ValueNode<ValueDictionary> {'list': class 'list', 'len': InterpretedObject: '<built-in function len>', 'enumerate': class 'enumerate', 'ops': Module: 'Namespace:mindspore.ops', 'mindspore': Module: 'Namespace:mindspore', 'self': InterpretedObject: 'Namespace:model.HGNN..<HeteroGCNLayer::140608484074704>', 'Tensor': class 'mindspore.common.tensor.Tensor'}, [3]: [CNode]166}
+#  45: @↻↓Default.42:[CNode]169{[0]: ValueNode<FuncGraph> maximum.168, [1]: cnt, [2]: [CNode]167}
+#  46: @↻↓Default.42:mailbox{[0]: ValueNode<DoSignaturePrimitive> S-Prim-div, [1]: mailbox, [2]: [CNode]169}
+#  47: @↻↓Default.42:[CNode]132{[0]: ValueNode<DoSignaturePrimitive> S-Prim-getitem, [1]: фh, [2]: dsttype}
+#  48: @↻↓Default.42:[CNode]170{[0]: ValueNode<DoSignaturePrimitive> S-Prim-add, [1]: [CNode]132, [2]: mailbox}
+#  49: @↻↓Default.42:[CNode]171{[0]: ValueNode<DoSignaturePrimitive> S-Prim-setitem, [1]: фh, [2]: dsttype, [3]: [CNode]170}
+#  50: @↻↓Default.42:[CNode]174{[0]: ValueNode<Primitive> Return, [1]: [CNode]173}
+#  51: @↻↓Default.42:[CNode]172{[0]: ValueNode<FuncGraph> ↵↓Default.40, [1]: [CNode]41, [2]: [CNode]171}
+
+
+# [No.12] _tensor_getitem_by_number.43
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/getitem_impl.py:208/def _tensor_getitem_by_number(data, number_index):/
+funcgraph fg_43(
+        %para34 : Tensor(I32)[2, 76972]    # data
+        , %para35 : I64NoShape    # number_index
+    ) {
+    %1 : ExternalTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, compile_utils)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]140
+    %2 : FuncNoShape = Primitive::getattr{prim_type=1}(%1, "tensor_index_by_number")    #(ExternalTypeNoShape, StringNoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]140
+
+#------------------------> 18
+    %3 = %2(%para34, %para35)    #(Tensor(I32)[2, 76972], I64NoShape) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]140
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # In file /workspace/DP-CroSUE-mindspore/dpcrosue/dp_embed/model/HGNN.py:73/                edges[i].astype(mindspore.int32).reshape(-1, 1), e_m)/#[CNode]140
+}
+# order:
+#   1: @_tensor_getitem_by_number.175:[CNode]176{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   2: @_tensor_getitem_by_number.175:[CNode]177{[0]: [CNode]176, [1]: data, [2]: number_index}
+#   3: @_tensor_getitem_by_number.43:[CNode]140{[0]: [CNode]140, [1]: data, [2]: number_index}
+#   4: @_tensor_getitem_by_number.43:[CNode]140{[0]: ValueNode<Primitive> Return, [1]: [CNode]140}
+
+
+# [No.13] tensor_index_by_number.44
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:347/def tensor_index_by_number(data, number_index):/
+funcgraph fg_44(
+        %para36 : Tensor(I32)[2, 76972]    # data
+        , %para37 : I64NoShape    # number_index
+    ) {
+    %1 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, bool_)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]178
+    %2 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, isinstance)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]179
+    %3 : TypeTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, bool)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]180
+    %4 : BoolNoShape = %2(%para37, %3)    #(I64NoShape, TypeTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]181
+    %5 : BoolNoShape = %1(%4)    #(BoolNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]182
+    %6 : FuncNoShape = Primitive::Switch{prim_type=1}(%5, FuncGraph::fg_183, FuncGraph::fg_45)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_183=✓tensor_index_by_number.183, fg_45=✗tensor_index_by_number.45 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]184
+
+#------------------------> 19
+    %7 = %6() #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]185
+    Primitive::Return{prim_type=1}(%7)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]186
+}
+# order:
+#   1: @tensor_index_by_number.44:[CNode]187{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   2: @tensor_index_by_number.44:[CNode]188{[0]: [CNode]187, [1]: number_index, [2]: [CNode]180}
+#   3: @tensor_index_by_number.44:[CNode]181{[0]: [CNode]179, [1]: number_index, [2]: [CNode]180}
+#   4: @tensor_index_by_number.44:[CNode]182{[0]: [CNode]178, [1]: [CNode]181}
+#   5: @tensor_index_by_number.44:[CNode]189{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> _tensor_index_by_bool}
+#   6: @tensor_index_by_number.44:[CNode]184{[0]: ValueNode<Primitive> Switch, [1]: [CNode]182, [2]: ValueNode<FuncGraph> ✓tensor_index_by_number.183, [3]: ValueNode<FuncGraph> ✗tensor_index_by_number.45}
+#   7: @tensor_index_by_number.44:[CNode]185{[0]: [CNode]184}
+#   8: @tensor_index_by_number.44:[CNode]186{[0]: ValueNode<Primitive> Return, [1]: [CNode]185}
+#   9: @tensor_index_by_number.44:[CNode]190{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> const_utils}
+
+
+# [No.14] ✗tensor_index_by_number.45
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/
+funcgraph fg_45[fg_44](
+) {
+
+#------------------------> 20
+    %1 = FuncGraph::fg_46()    # fg_46=↓tensor_index_by_number.46 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]191
+    Primitive::Return{prim_type=1}(%1)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]192
+}
+# order:
+#   1: @✗tensor_index_by_number.45:[CNode]191{[0]: ValueNode<FuncGraph> ↓tensor_index_by_number.46}
+#   2: @✗tensor_index_by_number.45:[CNode]192{[0]: ValueNode<Primitive> Return, [1]: [CNode]191}
+
+
+# [No.15] ↓tensor_index_by_number.46
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/
+funcgraph fg_46[fg_44](
+) {
+    %1 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, bool_)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]193
+    %2 : $(tensor_index_by_number.44):FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, isinstance)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:349/    if isinstance(number_index, bool):/#[CNode]179
+    %3 : $(tensor_index_by_number.44):TypeTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, int)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]194
+    %4 : BoolNoShape = %2(%para37, %3)    #(I64NoShape, TypeTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]195
+    %5 : BoolNoShape = %1(%4)    #(BoolNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]196
+    %6 : FuncNoShape = Primitive::Switch{prim_type=1}(%5, FuncGraph::fg_47, FuncGraph::fg_197)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_47=✓↓tensor_index_by_number.47, fg_197=✗↓tensor_index_by_number.197 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]198
+
+#------------------------> 21
+    %7 = %6() #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]199
+    Primitive::Return{prim_type=1}(%7)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/#[CNode]200
+}
+# order:
+#   1: @↓tensor_index_by_number.46:[CNode]201{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   2: @↓tensor_index_by_number.46:[CNode]202{[0]: [CNode]201, [1]: number_index, [2]: [CNode]194}
+#   3: @↓tensor_index_by_number.46:[CNode]195{[0]: [CNode]179, [1]: number_index, [2]: [CNode]194}
+#   4: @↓tensor_index_by_number.46:[CNode]196{[0]: [CNode]193, [1]: [CNode]195}
+#   5: @↓tensor_index_by_number.46:[CNode]198{[0]: ValueNode<Primitive> Switch, [1]: [CNode]196, [2]: ValueNode<FuncGraph> ✓↓tensor_index_by_number.47, [3]: ValueNode<FuncGraph> ✗↓tensor_index_by_number.197}
+#   6: @↓tensor_index_by_number.46:[CNode]199{[0]: [CNode]198}
+#   7: @↓tensor_index_by_number.46:[CNode]200{[0]: ValueNode<Primitive> Return, [1]: [CNode]199}
+
+
+# [No.16] ✓↓tensor_index_by_number.47
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:351/    if isinstance(number_index, int):/
+funcgraph fg_47[fg_44](
+) {
+    %1 : $(tensor_index_by_number.44):FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, _tensor_index_by_integer)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]203
+
+#------------------------> 22
+    %2 = %1(%para36, %para37)    #(Tensor(I32)[2, 76972], I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]204
+    Primitive::Return{prim_type=1}(%2)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]205
+}
+# order:
+#   1: @✓↓tensor_index_by_number.47:[CNode]206{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   2: @✓↓tensor_index_by_number.47:[CNode]207{[0]: [CNode]206, [1]: data, [2]: number_index}
+#   3: @✓↓tensor_index_by_number.47:[CNode]204{[0]: [CNode]203, [1]: data, [2]: number_index}
+#   4: @✓↓tensor_index_by_number.47:[CNode]205{[0]: ValueNode<Primitive> Return, [1]: [CNode]204}
+
+
+# [No.17] _tensor_index_by_integer.48
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:387/def _tensor_index_by_integer(data, int_index):/
+funcgraph fg_48(
+        %para38 : Tensor(I32)[2, 76972]    # фdata
+        , %para39 : I64NoShape    # фint_index
+    ) {
+    %1 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, bool_)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]208
+    %2 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, bool_)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]209
+    %3 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::Ast, lt)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:0/#[CNode]210
+    %4 : I64NoShape = Primitive::getattr{prim_type=1}(%para38, "ndim")    #(Tensor(I32)[2, 76972], StringNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]211
+    %5 : BoolNoShape = %3(%4, I64(1))    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]212
+    %6 : BoolNoShape = %2(%5)    #(BoolNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]213
+    %7 : FuncNoShape = Primitive::Switch{prim_type=1}(%6, FuncGraph::fg_214, FuncGraph::fg_215)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_214=↰_tensor_index_by_integer.214, fg_215=↱_tensor_index_by_integer.215 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]216
+    %8 : BoolNoShape = %7() #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]217
+    %9 : BoolNoShape = %1(%8)    #(BoolNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]218
+    %10 : FuncNoShape = Primitive::Switch{prim_type=1}(%9, FuncGraph::fg_219, FuncGraph::fg_49)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_219=✓_tensor_index_by_integer.219, fg_49=✗_tensor_index_by_integer.49 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]220
+
+#------------------------> 23
+    %11 = %10() #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]221
+    Primitive::Return{prim_type=1}(%11)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]222
+}
+# order:
+#   1: @_tensor_index_by_integer.48:[CNode]211{[0]: ValueNode<Primitive> getattr, [1]: фdata, [2]: ValueNode<StringImm> ndim}
+#   2: @_tensor_index_by_integer.48:[CNode]212{[0]: [CNode]210, [1]: [CNode]211, [2]: ValueNode<Int64Imm> 1}
+#   3: @_tensor_index_by_integer.48:[CNode]213{[0]: [CNode]209, [1]: [CNode]212}
+#   4: @_tensor_index_by_integer.48:[CNode]216{[0]: ValueNode<Primitive> Switch, [1]: [CNode]213, [2]: ValueNode<FuncGraph> ↰_tensor_index_by_integer.214, [3]: ValueNode<FuncGraph> ↱_tensor_index_by_integer.215}
+#   5: @_tensor_index_by_integer.48:[CNode]217{[0]: [CNode]216}
+#   6: @_tensor_index_by_integer.48:[CNode]218{[0]: [CNode]208, [1]: [CNode]217}
+#   7: @_tensor_index_by_integer.48:[CNode]220{[0]: ValueNode<Primitive> Switch, [1]: [CNode]218, [2]: ValueNode<FuncGraph> ✓_tensor_index_by_integer.219, [3]: ValueNode<FuncGraph> ✗_tensor_index_by_integer.49}
+#   8: @_tensor_index_by_integer.48:[CNode]221{[0]: [CNode]220}
+#   9: @_tensor_index_by_integer.48:[CNode]222{[0]: ValueNode<Primitive> Return, [1]: [CNode]221}
+#  10: @_tensor_index_by_integer.48:фcheck_range{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> check_range}
+#  11: @_tensor_index_by_integer.48:фget_stride_info_from_integer{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> get_stride_info_from_integer}
+
+
+# [No.18] ✗_tensor_index_by_integer.49
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/
+funcgraph fg_49[fg_48](
+) {
+
+#------------------------> 24
+    %1 = FuncGraph::fg_50()    # fg_50=↓_tensor_index_by_integer.50 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]223
+    Primitive::Return{prim_type=1}(%1)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/#[CNode]224
+}
+# order:
+#   1: @✗_tensor_index_by_integer.49:[CNode]224{[0]: ValueNode<Primitive> Return, [1]: [CNode]223}
+#   2: @✗_tensor_index_by_integer.49:[CNode]223{[0]: ValueNode<FuncGraph> ↓_tensor_index_by_integer.50}
+
+
+# [No.19] ↓_tensor_index_by_integer.50
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:389/    if data.ndim < 1 or data.ndim > 8:/
+funcgraph fg_50[fg_48](
+) {
+    %1 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, bool_)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]225
+    %2 : $(_tensor_index_by_integer.48):FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, is_shape_unknown)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#фis_shape_unknown
+    %3 : $(_tensor_index_by_integer.48):ExternalTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, F)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#фF
+    %4 : FuncNoShape = Primitive::getattr{prim_type=1}(%3, "shape")    #(ExternalTypeNoShape, StringNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#[CNode]226
+    %5 : Tuple[I64*2]TupleShape(NoShape, NoShape) = %4(%para38)    #(Tensor(I32)[2, 76972]) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#data_shape
+    %6 : BoolNoShape = %2(%5)    #(Tuple[I64*2]TupleShape(NoShape, NoShape)) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]227
+    %7 : BoolNoShape = %1(%6)    #(BoolNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]228
+    %8 : FuncNoShape = Primitive::Switch{prim_type=1}(%7, FuncGraph::fg_229, FuncGraph::fg_51)    #(BoolNoShape, FuncNoShape, FuncNoShape)    # fg_229=✓↓_tensor_index_by_integer.229, fg_51=✗↓_tensor_index_by_integer.51 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]230
+
+#------------------------> 25
+    %9 = %8() #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]231
+    %10 = Primitive::TupleGetItem{prim_type=1}(%9, I64(0))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]232
+    %11 = Primitive::TupleGetItem{prim_type=1}(%9, I64(1))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]233
+    %12 = Primitive::TupleGetItem{prim_type=1}(%9, I64(2))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]234
+    %13 = Primitive::TupleGetItem{prim_type=1}(%9, I64(3))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]235
+    %14 = FuncGraph::fg_236(%10, %11, %12, %13)    #(Undefined, Undefined, Undefined, Undefined)    # fg_236=↓↓_tensor_index_by_integer.236 #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]237
+    Primitive::Return{prim_type=1}(%14)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]238
+}
+# order:
+#   1: @↓_tensor_index_by_integer.50:фF{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> F}
+#   2: @↓_tensor_index_by_integer.50:[CNode]239{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   3: @↓_tensor_index_by_integer.50:[CNode]240{[0]: [CNode]239, [1]: фdata}
+#   4: @↓_tensor_index_by_integer.50:data_shape{[0]: [CNode]226, [1]: фdata}
+#   5: @↓_tensor_index_by_integer.50:фis_shape_unknown{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> is_shape_unknown}
+#   6: @↓_tensor_index_by_integer.50:[CNode]241{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   7: @↓_tensor_index_by_integer.50:[CNode]242{[0]: [CNode]241, [1]: data_shape}
+#   8: @↓_tensor_index_by_integer.50:[CNode]227{[0]: фis_shape_unknown, [1]: data_shape}
+#   9: @↓_tensor_index_by_integer.50:[CNode]228{[0]: [CNode]225, [1]: [CNode]227}
+#  10: @↓_tensor_index_by_integer.50:фcheck_range{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> check_range}
+#  11: @↓_tensor_index_by_integer.50:фget_stride_info_from_integer{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> get_stride_info_from_integer}
+#  12: @↓_tensor_index_by_integer.50:фconst_utils{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> const_utils}
+#  13: @↓_tensor_index_by_integer.50:[CNode]230{[0]: ValueNode<Primitive> Switch, [1]: [CNode]228, [2]: ValueNode<FuncGraph> ✓↓_tensor_index_by_integer.229, [3]: ValueNode<FuncGraph> ✗↓_tensor_index_by_integer.51}
+#  14: @↓_tensor_index_by_integer.50:[CNode]231{[0]: [CNode]230}
+#  15: @↓_tensor_index_by_integer.50:[CNode]237{[0]: ValueNode<FuncGraph> ↓↓_tensor_index_by_integer.236, [1]: [CNode]232, [2]: [CNode]233, [3]: [CNode]234, [4]: [CNode]235}
+#  16: @↓_tensor_index_by_integer.50:[CNode]238{[0]: ValueNode<Primitive> Return, [1]: [CNode]237}
+#  17: @↓_tensor_index_by_integer.50:фrange{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> range}
+#  18: @↓_tensor_index_by_integer.50:фlen{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> len}
+#  19: @↓_tensor_index_by_integer.50:фstrided_slice{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> SymbolStr: 'Namespace:mindspore.ops.composite.multitype_ops._compile_utils', [2]: ValueNode<Symbol> strided_slice}
+#  20: @↓_tensor_index_by_integer.50:[CNode]232{[0]: ValueNode<Primitive> TupleGetItem, [1]: [CNode]231, [2]: ValueNode<Int64Imm> 0}
+#  21: @↓_tensor_index_by_integer.50:[CNode]233{[0]: ValueNode<Primitive> TupleGetItem, [1]: [CNode]231, [2]: ValueNode<Int64Imm> 1}
+#  22: @↓_tensor_index_by_integer.50:[CNode]234{[0]: ValueNode<Primitive> TupleGetItem, [1]: [CNode]231, [2]: ValueNode<Int64Imm> 2}
+#  23: @↓_tensor_index_by_integer.50:[CNode]235{[0]: ValueNode<Primitive> TupleGetItem, [1]: [CNode]231, [2]: ValueNode<Int64Imm> 3}
+
+
+# [No.20] ✗↓_tensor_index_by_integer.51
+# In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/
+funcgraph fg_51[fg_50](
+) {
+    %1 : $(_tensor_index_by_integer.48):ExternalTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, F)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#фF
+    %2 : $(↓_tensor_index_by_integer.50):FuncNoShape = Primitive::getattr{prim_type=1}(%1, "shape")    #(ExternalTypeNoShape, StringNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#[CNode]226
+    %3 : $(↓_tensor_index_by_integer.50):Tuple[I64*2]TupleShape(NoShape, NoShape) = %2(%para38)    #(Tensor(I32)[2, 76972]) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:392/    data_shape = F.shape(data)/#data_shape
+    %4 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, getitem)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:399/        begin_strides, end_strides, step_strides = \/#[CNode]243
+    %5 : $(_tensor_index_by_integer.48):ExternalTypeNoShape = Primitive::resolve{prim_type=1}(NameSpace::SymbolStr, const_utils)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:398/        transformed_number = const_utils.check_range(int_index, data_shape[0])/#фconst_utils
+    %6 : FuncNoShape = Primitive::getattr{prim_type=1}(%5, "get_stride_info_from_integer")    #(ExternalTypeNoShape, StringNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:400/            const_utils.get_stride_info_from_integer(data_shape, transformed_number)/#[CNode]244
+    %7 : FuncNoShape = Primitive::getattr{prim_type=1}(%5, "check_range")    #(ExternalTypeNoShape, StringNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:398/        transformed_number = const_utils.check_range(int_index, data_shape[0])/#[CNode]245
+    %8 : FuncNoShape = Primitive::resolve{prim_type=1}(NameSpace::CommonOPS, getitem)    #(ExternalTypeNoShape, ExternalTypeNoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:398/        transformed_number = const_utils.check_range(int_index, data_shape[0])/#[CNode]246
+    %9 : I64NoShape = %8(%3, I64(0))    #(Tuple[I64*2]TupleShape(NoShape, NoShape), I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:398/        transformed_number = const_utils.check_range(int_index, data_shape[0])/#[CNode]247
+
+#------------------------> 26
+    %10 = %7(%para39, %9)    #(I64NoShape, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:398/        transformed_number = const_utils.check_range(int_index, data_shape[0])/#transformed_number
+    %11 = %6(%3, %10)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:400/            const_utils.get_stride_info_from_integer(data_shape, transformed_number)/#[CNode]248
+    %12 = %4(%11, I64(0))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:399/        begin_strides, end_strides, step_strides = \/#begin_strides
+    %13 = %4(%11, I64(1))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:399/        begin_strides, end_strides, step_strides = \/#end_strides
+    %14 = %4(%11, I64(2))    #(Undefined, I64NoShape) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:399/        begin_strides, end_strides, step_strides = \/#step_strides
+    %15 = Primitive::MakeTuple{prim_type=1}(%3, %12, %13, %14)    #(Tuple[I64*2]TupleShape(NoShape, NoShape), Undefined, Undefined, Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:352/        return _tensor_index_by_integer(data, number_index)/#[CNode]249
+    Primitive::Return{prim_type=1}(%15)    #(Undefined) #scope: Default
+      # In file /usr/local/python-3.7.5/lib/python3.7/site-packages/mindspore/ops/composite/multitype_ops/_compile_utils.py:393/    if is_shape_unknown(data_shape):/#[CNode]250
+}
+# order:
+#   1: @✗↓_tensor_index_by_integer.51:[CNode]247{[0]: [CNode]246, [1]: data_shape, [2]: ValueNode<Int64Imm> 0}
+#   2: @✗↓_tensor_index_by_integer.51:[CNode]251{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   3: @✗↓_tensor_index_by_integer.51:[CNode]252{[0]: [CNode]251, [1]: фint_index, [2]: [CNode]247}
+#   4: @✗↓_tensor_index_by_integer.51:transformed_number{[0]: [CNode]245, [1]: фint_index, [2]: [CNode]247}
+#   5: @✗↓_tensor_index_by_integer.51:[CNode]253{[0]: ValueNode<Primitive> resolve, [1]: ValueNode<NameSpace> CommonOPS: 'Namespace:mindspore._extends.parse.trope', [2]: ValueNode<Symbol> MakeTuple}
+#   6: @✗↓_tensor_index_by_integer.51:[CNode]254{[0]: [CNode]253, [1]: data_shape, [2]: transformed_number}
+#   7: @✗↓_tensor_index_by_integer.51:[CNode]248{[0]: [CNode]244, [1]: data_shape, [2]: transformed_number}
+#   8: @✗↓_tensor_index_by_integer.51:begin_strides{[0]: [CNode]243, [1]: [CNode]248, [2]: ValueNode<Int64Imm> 0}
+#   9: @✗↓_tensor_index_by_integer.51:end_strides{[0]: [CNode]243, [1]: [CNode]248, [2]: ValueNode<Int64Imm> 1}
+#  10: @✗↓_tensor_index_by_integer.51:step_strides{[0]: [CNode]243, [1]: [CNode]248, [2]: ValueNode<Int64Imm> 2}
+#  11: @✗↓_tensor_index_by_integer.51:[CNode]250{[0]: ValueNode<Primitive> Return, [1]: [CNode]249}
+#  12: @✗↓_tensor_index_by_integer.51:[CNode]249{[0]: ValueNode<Primitive> MakeTuple, [1]: data_shape, [2]: begin_strides, [3]: end_strides, [4]: step_strides}
+
+
+#===============================================================================
+# num of function graphs in stack: 20/29 (Ignored 9 internal frames).
